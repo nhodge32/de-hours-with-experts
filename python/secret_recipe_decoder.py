@@ -41,10 +41,12 @@ ENCODING = {
     '9': '7',
     '1': '8',
     '6': '9'
- }
+}
 
 """An ingredient has an amount and a description.
 For example: an Ingredient could have "1 cup" as the amount and "butter" as the description."""
+
+
 class Ingredient():
     def __init__(self, amount, description) -> None:
         self.amount = amount
@@ -55,51 +57,39 @@ def decode_string(str):
     """Given a string named str, use the Caesar encoding above to return the decoded string."""
     decoded_word = ""
     for letter in str:
-        decoded_letter = ENCODING[letter]
-        decoded_word += decoded_letter
-    # print (decoded_word)
-    return '1 cup'
+        if letter == " ":
+            decoded_word += " "
+        elif letter == ",":
+            decoded_word += ","
+        elif letter == "-":
+            decoded_word += "-"
+        elif letter == "/":
+            decoded_word += "/"
+        else:
+            decoded_letter = ENCODING[letter]
+            decoded_word += decoded_letter
+    return decoded_word
 
 
 def decode_ingredient(line):
     """Given an ingredient, decode the amount and description, and return a new Ingredient"""
-    decoded_ingredient = ""
-    for char in line:
-        if char == " ":
-            decoded_ingredient += " "
-        elif char == ",":
-            decoded_ingredient += ","
-        elif char == "#":
-            decoded_ingredient += "#"
-        elif char == "-":
-            decoded_ingredient += "-"
-        elif char == "/":
-            decoded_ingredient += "/"
-        else:
-            decoded_char = ENCODING[char]
-            decoded_ingredient += decoded_char
+    amount, description = line.split("#")
+    # Not sure if this would be the better way or defining a variable for each, decode, and then return with those new variables
+    return Ingredient(decode_string(amount), decode_string(description))
 
-    amount, description = decoded_ingredient.split("#")
-
-    # print (amount)
-    # print(description)
-    print(decoded_ingredient)
-
-    return Ingredient("1 cup", "butter")
 
 def main():
     """A program that decodes a secret recipe"""
-    # TODO: implement me
+    recipe_file = open('decoded_recipe.txt', 'w')
     secret_recipe = open("secret_recipe.txt", "r")
     ingredients = secret_recipe.read()
     single_ingredient = ingredients.splitlines()
     for line in single_ingredient:
-        decode_ingredient(line)
-
-    with open('decoded_recipe.txt', 'w') as file:
-        file.write('Decoded Recipe Ingredient List')
+        decoded_ingredient = decode_ingredient(line)
+        recipe_file.write(decoded_ingredient.amount + " " + decoded_ingredient.description + "\n")
 
     secret_recipe.close()
+    recipe_file.close()
 
 if __name__ == "__main__":
     main()
