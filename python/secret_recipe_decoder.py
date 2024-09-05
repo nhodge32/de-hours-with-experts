@@ -40,7 +40,11 @@ ENCODING = {
     '5': '6',
     '9': '7',
     '1': '8',
-    '6': '9'
+    '6': '9',
+    ',': ',',
+    '/': '/',
+    '-': '-',
+    ' ': ' '
 }
 
 """An ingredient has an amount and a description.
@@ -57,17 +61,8 @@ def decode_string(str):
     """Given a string named str, use the Caesar encoding above to return the decoded string."""
     decoded_word = ""
     for letter in str:
-        if letter == " ":
-            decoded_word += " "
-        elif letter == ",":
-            decoded_word += ","
-        elif letter == "-":
-            decoded_word += "-"
-        elif letter == "/":
-            decoded_word += "/"
-        else:
-            decoded_letter = ENCODING[letter]
-            decoded_word += decoded_letter
+        decoded_letter = ENCODING[letter]
+        decoded_word += decoded_letter
     return decoded_word
 
 
@@ -80,16 +75,16 @@ def decode_ingredient(line):
 
 def main():
     """A program that decodes a secret recipe"""
-    recipe_file = open('decoded_recipe.txt', 'w')
+    decoded_recipe_file = open('decoded_recipe.txt', 'w')
     secret_recipe = open("secret_recipe.txt", "r")
     ingredients = secret_recipe.read()
     single_ingredient = ingredients.splitlines()
     for line in single_ingredient:
         decoded_ingredient = decode_ingredient(line)
-        recipe_file.write(decoded_ingredient.amount + " " + decoded_ingredient.description + "\n")
+        decoded_recipe_file.write(decoded_ingredient.amount + " " + decoded_ingredient.description + "\n")
 
     secret_recipe.close()
-    recipe_file.close()
+    decoded_recipe_file.close()
 
 if __name__ == "__main__":
     main()
