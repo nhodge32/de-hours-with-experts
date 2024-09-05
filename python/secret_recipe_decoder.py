@@ -58,15 +58,34 @@ def decode_string(str):
         decoded_letter = ENCODING[letter]
         decoded_word += decoded_letter
     # print (decoded_word)
-    # TODO: implement me
     return '1 cup'
 
 
 def decode_ingredient(line):
     """Given an ingredient, decode the amount and description, and return a new Ingredient"""
-    # TODO: implement me
-    return Ingredient("1 cup", "butter")
+    decoded_ingredient = ""
+    for char in line:
+        if char == " ":
+            decoded_ingredient += " "
+        elif char == ",":
+            decoded_ingredient += ","
+        elif char == "#":
+            decoded_ingredient += "#"
+        elif char == "-":
+            decoded_ingredient += "-"
+        elif char == "/":
+            decoded_ingredient += "/"
+        else:
+            decoded_char = ENCODING[char]
+            decoded_ingredient += decoded_char
 
+    amount, description = decoded_ingredient.split("#")
+
+    print (amount)
+    print(description)
+    print(decoded_ingredient)
+
+    return Ingredient("1 cup", "butter")
 
 def main():
     """A program that decodes a secret recipe"""
@@ -74,6 +93,7 @@ def main():
     # add function to decode the string to the main
     # something else will be added into str I think
     decode_string("hgiikf")
+    decode_ingredient("8#2-ngqvk uawe vsnvnwyik hyf")
 
 if __name__ == "__main__":
     main()
