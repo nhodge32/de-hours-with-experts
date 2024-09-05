@@ -81,8 +81,8 @@ def decode_ingredient(line):
 
     amount, description = decoded_ingredient.split("#")
 
-    print (amount)
-    print(description)
+    # print (amount)
+    # print(description)
     print(decoded_ingredient)
 
     return Ingredient("1 cup", "butter")
@@ -90,10 +90,16 @@ def decode_ingredient(line):
 def main():
     """A program that decodes a secret recipe"""
     # TODO: implement me
-    # add function to decode the string to the main
-    # something else will be added into str I think
-    decode_string("hgiikf")
-    decode_ingredient("8#2-ngqvk uawe vsnvnwyik hyf")
+    secret_recipe = open("secret_recipe.txt", "r")
+    ingredients = secret_recipe.read()
+    single_ingredient = ingredients.splitlines()
+    for line in single_ingredient:
+        decode_ingredient(line)
+
+    with open('decoded_recipe.txt', 'w') as file:
+        file.write('Decoded Recipe Ingredient List')
+
+    secret_recipe.close()
 
 if __name__ == "__main__":
     main()
